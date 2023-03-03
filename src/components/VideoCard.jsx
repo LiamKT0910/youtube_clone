@@ -36,7 +36,7 @@ const VideoCard = ({
         <Link
           to={
             snippet?.channelId
-              ? `/chanel/${snippet?.channelId}`
+              ? `/channel/${snippet?.channelId}`
               : demoChannelUrl
           }
         >
