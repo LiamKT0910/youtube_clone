@@ -1,18 +1,20 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Stack, Typography } from "@mui/material";
-import { Sidebar, Videos } from "../components";
-import { fetchFromAPI } from "../utils/fectchFromAPI";
+
+import { fetchFromAPI } from "../utils/fetchFromAPI";
+import { Videos, Sidebar } from "./";
 
 const Feed = () => {
+  const [selectedCategory, setSelectedCategory] = useState("New");
+  const [videos, setVideos] = useState(null);
 
-  const [selectedCategory, setselectedCategory] = useState('New')
-  const [videos, setVideos] = useState([])
+  useEffect(() => {
+    setVideos(null);
 
-  useEffect(()=> {
-    fetchFromAPI(`search?part=snippet&q=${selectedCategory}`)
-    .then((data)=> setVideos(data.items))
-  },[selectedCategory])
+    fetchFromAPI(`search?part=snippet&q=${selectedCategory}`).then((data) =>
+      setVideos(data.items)
+    );
+  }, [selectedCategory]);
 
   return (
     <Stack sx={{ flexDirection: { sx: "column", md: "row" } }}>
@@ -23,16 +25,17 @@ const Feed = () => {
           px: { sx: 0, md: 2 },
         }}
       >
-        <Sidebar 
-        selectedCategory={selectedCategory}
-        setselectedCategory={setselectedCategory}
+        <Sidebar
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
         />
+
         <Typography
           className="copyright"
           variant="body2"
           sx={{ mt: 1.5, color: "#fff" }}
         >
-          Copyright 2023 Liam Tran
+          Copyright © 2023 Liam Youtube
         </Typography>
       </Box>
 
@@ -43,7 +46,7 @@ const Feed = () => {
           mb={2}
           sx={{ color: "white" }}
         >
-          {selectedCategory} <span style={{ color: "#F31503" }}>Videos</span>
+          {selectedCategory} <span style={{ color: "#FC1503" }}>videos</span>
         </Typography>
 
         <Videos videos={videos} />
